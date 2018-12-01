@@ -142,6 +142,8 @@ class CryptoEngineTriArbitrage(object):
         if status > 0:
             maxAmounts = self.getMaxAmount(lastPrices, responses, status)
             
+            print ('maxmaxAmounts in main: {} '.format(maxAmounts))
+
             fee = 0
             for index, amount in enumerate(maxAmounts):
                 fee += amount * lastPrices[index]
@@ -226,13 +228,21 @@ class CryptoEngineTriArbitrage(object):
             #     self.engine.balance[self.exchange[tickerIndex]]
             # )
             USDT = maxBalance * lastPrices[index] * (1 - self.engine.feeRatio)
+
+            print ('USDT: {}'.format(USDT))
+
             if not maxUSDT or USDT < maxUSDT: 
                 maxUSDT = USDT       
 
+            print ('maxUSDT: {}'.format(maxUSDT))
+
         maxAmounts = []
+
         for index, tickerIndex in enumerate(['tickerA', 'tickerB', 'tickerC']):
             # May need to handle scientific notation
             maxAmounts.append(maxUSDT / lastPrices[index])
+
+        print ('Final maxAmounts: {}'.format(maxAmounts))
 
         return maxAmounts
 

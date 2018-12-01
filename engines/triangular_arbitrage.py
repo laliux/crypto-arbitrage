@@ -106,6 +106,7 @@ class CryptoEngineTriArbitrage(object):
 
         responses = self.send_request(rs)
         
+        """
         if self.mock:
             print '{0} - {1}; {2} - {3}; {4} - {5}'.format(
                 self.exchange['tickerPairA'],
@@ -115,7 +116,8 @@ class CryptoEngineTriArbitrage(object):
                 self.exchange['tickerPairC'],
                 responses[2].parsed
                 )
-        
+        """
+
         # bid route BTC->ETH->LTC->BTC
         bidRoute_result = (1 / responses[0].parsed['ask']['price']) \
                             / responses[1].parsed['ask']['price']   \
@@ -129,13 +131,17 @@ class CryptoEngineTriArbitrage(object):
         if bidRoute_result > 1 or \
         (bidRoute_result > 1 and askRoute_result > 1 and (bidRoute_result - 1) * lastPrices[0] > (askRoute_result - 1) * lastPrices[1]):
             status = 1 # bid route
+            print ('bid route')
         elif askRoute_result > 1:
             status = 2 # ask route
+            print ('ask route')
         else:
             status = 0 # do nothing
+            print ('status 0 do nothing')
         
         if status > 0:
             maxAmounts = self.getMaxAmount(lastPrices, responses, status)
+            
             fee = 0
             for index, amount in enumerate(maxAmounts):
                 fee += amount * lastPrices[index]
@@ -205,8 +211,15 @@ class CryptoEngineTriArbitrage(object):
             # switch for ask route
             if status == 2: bid_ask *= -1
             bid_ask = 'bid' if bid_ask == 1 else 'ask'
+
+            print ('bid or ask: %s' % bid_ask)
+            print ('tcker idnex: {}'.format(self.exchange[tickerIndex]))
+            print ('ticker balance: {}'.format(self.engine.balance[self.exchange[tickerIndex]]))
             
             maxBalance = min(orderBookRes[index].parsed[bid_ask]['amount'], self.engine.balance[self.exchange[tickerIndex]])
+
+            print ('maxBalance: {}'.format(maxBalance))
+
             # print '{0} orderBookAmount - {1} ownAmount - {2}'.format(
             #     self.exchange[tickerIndex], 
             #     orderBookRes[index].parsed[bid_ask]['amount'], 

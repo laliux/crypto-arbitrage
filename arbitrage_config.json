@@ -1,13 +1,13 @@
 {
     "triangular": {
-        "exchange": "bittrex",
-        "keyFile": "keys/bittrex.key",
-        "tickerPairA": "BTC-ETH",
-        "tickerPairB": "ETH-LTC",
-        "tickerPairC": "BTC-LTC",
+        "exchange": "binance",
+        "keyFile": "keys/binance.key",
+        "tickerPairA": "ETHBTC",
+        "tickerPairB": "XRPETH",
+        "tickerPairC": "XRPBTC",
         "tickerA": "BTC",
         "tickerB": "ETH",
-        "tickerC": "LTC"
+        "tickerC": "XRP"
     },
     "exchange": {
         "exchangeA": {
